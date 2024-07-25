@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 @login_required
 def Home(request):
     today = date.today()  # Get today's date
-    end_date = today + timedelta(days=5)  # Calculate end date (5 days from today)
+    end_date = today + timedelta(days=10000)  # Calculate end date (5 days from today)
     
     # Get the logged-in user
     user = request.user

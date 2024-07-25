@@ -9,6 +9,6 @@ class Task(models.Model):
     task_id = models.BigAutoField(primary_key=True)
     task_due = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return self.task_name

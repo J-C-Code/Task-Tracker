@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from . import forms
-
+from TaskTracker import models
 
 def register(request):
     if request.method == "POST":
@@ -20,7 +20,9 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'users/profile.html')
+    user = request.user
+    tasks = models.Task.objects.filter(author=user).order_by('task_due')
+    return render(request, 'users/profile.html', {'tasks': tasks, 'user': user})
 
 @login_required
 def user_logout(request):
