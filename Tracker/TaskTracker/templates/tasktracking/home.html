@@ -1,0 +1,45 @@
+{% extends 'tasktracking/base.html' %}
+{% block content %}
+    <div class="container">
+        <!-- Create Task Button -->
+        <div class="row mb-4">
+            <div class="col text-center">
+                <a href="{% url 'task-create' %}" class="btn btn-primary my-3 p-3">Create Task</a>
+            </div>
+        </div>
+
+        <!-- Existing Task List -->
+        <div class="row justify-content-center">
+            {% if not tasks %}
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                    <h1>You have no upcoming tasks</h1>
+                    <h2>You can relax now :)</h2>
+                </div>
+            </div>
+            {% endif %}
+            {% for task in tasks %}
+                <div class="col-12 mb-3 py-3"> <!-- Full width column to ensure vertical stacking -->
+                    <form method="post" action="{% url 'update_task_status' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="task_id" value="{{ task.task_id }}">
+                        <div class="card w-100"> <!-- Full width card to fill column width -->
+                            <h5 class="card-header"><strong>Due: </strong>{{task.task_due}}</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.task_name }}</h5>
+                                <div class="form-check custom-checkbox">
+                                    <input class="form-check-input" type="checkbox" name="task_complete" id="task_complete_{{ task.id }}" {% if task.task_complete %}checked{% endif %} onchange="this.form.submit()">
+                                    <label class="form-check-label" for="task_complete_{{ task.id }}">
+                                        <span class="custom-checkbox-icon"></span>
+                                        Complete
+                                    </label>
+                                </div>
+                            </div>
+                            <a class="btn btn-outline-danger" href="{% url 'task-delete' pk=task.pk %}">Delete</a>
+                        </div>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
