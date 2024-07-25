@@ -1,2 +1,1 @@
-# Full Django Task-Tracker
-
+# Django Task Tracker
